@@ -8,12 +8,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "TB_TAGS")
 public class Tag {
@@ -27,4 +29,8 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     private Set<Atividade> atividades;
+
+    public Tag(String nome) {
+       this.nome = nome;
+    }
 }

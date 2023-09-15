@@ -1,7 +1,9 @@
 package br.com.desbugando.registroatividades.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,15 +17,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "TB_ATIVIDADES")
+@EntityListeners(AuditingEntityListener.class)
 public class Atividade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +39,11 @@ public class Atividade {
     @Column(name = "TXT_DESCRICAO")
     private String descricao;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "OID_CATEGORIA")
     private Categoria categoria;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "TB_ATIVIDADES_TAGS",
         joinColumns = @JoinColumn(name = "OID_ATIVIDADE"),
         inverseJoinColumns = @JoinColumn(name = "OID_TAG"))
@@ -59,5 +62,5 @@ public class Atividade {
 
     @OneToMany
     @JoinColumn(name = "OID_ATIVIDADE")
-    private List<Movimento> movimentos;
+    private Set<Movimento> movimentos;
 }

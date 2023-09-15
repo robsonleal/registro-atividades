@@ -7,10 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "TB_CATEGORIAS")
 public class Categoria {
@@ -19,6 +21,10 @@ public class Categoria {
     @Column(name = "OID_CATEGORIA")
     private Long id;
 
-    @Column(name = "OID_NOME")
+    @Column(name = "TXT_NOME")
     private String nome;
+
+    public Categoria(String nome) {
+        this.nome = nome;
+    }
 }
