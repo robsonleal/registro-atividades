@@ -24,7 +24,7 @@ public class Tag {
     @Column(name = "OID_TAG")
     private Long id;
 
-    @Column(name = "TXT_NOME")
+    @Column(name = "TXT_NOME", unique = true)
     private String nome;
 
     @ManyToMany(mappedBy = "tags")

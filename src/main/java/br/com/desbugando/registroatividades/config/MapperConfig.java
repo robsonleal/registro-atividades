@@ -3,9 +3,12 @@ package br.com.desbugando.registroatividades.config;
 import br.com.desbugando.registroatividades.dto.AtividadeDTO;
 import br.com.desbugando.registroatividades.dto.MovimentoDTO;
 import br.com.desbugando.registroatividades.model.Atividade;
-import br.com.desbugando.registroatividades.model.Categoria;
 import br.com.desbugando.registroatividades.model.Movimento;
 import br.com.desbugando.registroatividades.model.Tag;
+import br.com.desbugando.registroatividades.repository.CategoriaRepository;
+import br.com.desbugando.registroatividades.repository.TagRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +19,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Configuration
+@AllArgsConstructor
 public class MapperConfig {
+
+    private final CategoriaRepository categoriaRepository;
+    private final TagRepository tagRepository;
 
     @Bean
     @SuppressWarnings("unchecked")
@@ -41,11 +48,17 @@ public class MapperConfig {
         });
 
         dTOToAtividadeTypeMap.addMappings(mapper -> {
-            mapper.using(context -> new Categoria(context.getSource().toString()))
-                .map(AtividadeDTO::getCategoria, Atividade::setCategoria);
+            mapper.using(context -> {
+                String categoriaNome = context.getSource().toString();
+                return categoriaRepository.findByNome(categoriaNome)
+                    .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+            }).map(AtividadeDTO::getCategoria, Atividade::setCategoria);
+
             mapper.using(context -> {
                 Set<String> sourceTags = (Set<String>) context.getSource();
-                return sourceTags.stream().map(Tag::new).collect(Collectors.toSet());
+                return sourceTags.stream().map(nome -> tagRepository.findByNome(nome)
+                        .orElseThrow(() -> new EntityNotFoundException("Tag não encontrada")))
+                    .collect(Collectors.toSet());
             }).map(AtividadeDTO::getTags, Atividade::setTags);
         });
 

@@ -21,7 +21,7 @@ public class Categoria {
     @Column(name = "OID_CATEGORIA")
     private Long id;
 
-    @Column(name = "TXT_NOME")
+    @Column(name = "TXT_NOME", unique = true)
     private String nome;
 
     public Categoria(String nome) {

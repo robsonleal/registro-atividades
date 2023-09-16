@@ -33,7 +33,7 @@ public class Atividade {
     @Column(name = "OID_ATIVIDADE")
     private Long id;
 
-    @Column(name = "TXT_TITULO")
+    @Column(name = "TXT_TITULO", unique = true)
     private String titulo;
 
     @Column(name = "TXT_DESCRICAO")
