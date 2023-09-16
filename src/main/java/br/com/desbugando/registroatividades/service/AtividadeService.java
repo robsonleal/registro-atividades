@@ -14,6 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class AtividadeService {
@@ -22,6 +24,13 @@ public class AtividadeService {
     private final CategoriaRepository categoriaRepository;
     private final TagRepository tagRepository;
     private final ModelMapper mapper;
+
+    public List<AtividadeDTO> getNaoConcluidas() {
+        List<Atividade> atividades = repository.findByEstadoNot(Estado.CONCLUIDO);
+
+        return atividades.stream().map(atividade -> mapper.map(atividade, AtividadeDTO.class))
+            .toList();
+    }
 
     @Transactional
     public AtividadeDTO insert(AtividadeDTO dto) {

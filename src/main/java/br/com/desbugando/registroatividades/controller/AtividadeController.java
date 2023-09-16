@@ -24,7 +24,7 @@ public class AtividadeController {
     @GetMapping
     public ResponseEntity<List<AtividadeDTO>> getNaoConcluidas() {
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(service.getNaoConcluidas());
     }
 
     @PostMapping
