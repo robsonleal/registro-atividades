@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/atividades")
@@ -21,13 +22,13 @@ public class AtividadeController {
     private AtividadeService service;
 
     @GetMapping
-    public ResponseEntity<AtividadeDTO> getNaoConcluidas() {
+    public ResponseEntity<List<AtividadeDTO>> getNaoConcluidas() {
 
         return ResponseEntity.ok().build();
     }
 
     @PostMapping
-    public ResponseEntity<AtividadeDTO> insert(@RequestBody AtividadeDTO dto) throws Exception {
+    public ResponseEntity<AtividadeDTO> insert(@RequestBody AtividadeDTO dto) {
         dto = service.insert(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
