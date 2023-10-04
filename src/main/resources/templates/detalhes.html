@@ -24,6 +24,7 @@
         <form th:if="${atividade.estado.name()} == 'CONCLUIDO'" th:action="@{/atividades/{id}/ativar(id=${atividade.id})}" method="post">
           <button type="submit" class="btn btn-primary text-uppercase">Ativar</button>
         </form>
+        <a th:href="@{/atividades/{id}/editar(id=${atividade.id})}" class="btn btn-primary text-uppercase">Editar</a>
         <a th:if="${atividade.estado.name()} == 'ATIVO'" th:href="@{/atividades/{id}/movimentar(id=${atividade.id})}"
            class="btn btn-primary text-uppercase">Trabalhar</a>
       </div>

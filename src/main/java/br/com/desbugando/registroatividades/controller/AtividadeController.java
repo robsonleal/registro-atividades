@@ -70,7 +70,7 @@ public class AtividadeController {
             throw new BusinessException("Data inicial, precisa ser menor que a data final!");
         }
 
-        List<AtividadeDTO> atividades= service.getConcluidasNoPeriodo(dataInicial, dataFinal);
+        List<AtividadeDTO> atividades = service.getConcluidasNoPeriodo(dataInicial, dataFinal);
         model.addAttribute("atividades", atividades);
         model.addAttribute("activePage", "historico");
 
@@ -83,6 +83,24 @@ public class AtividadeController {
         model.addAttribute("atividade", atividade);
 
         return "detalhes";
+    }
+
+    @GetMapping("/{id}/editar")
+    public String editar(Model model, @PathVariable long id) {
+        List<CategoriaDTO> categorias = categoriaService.buscarTodas();
+        model.addAttribute("categorias", categorias);
+        List<TagDTO> tags = tagService.buscarTodas();
+        model.addAttribute("tags", tags);
+        AtividadeDTO atividade = service.findById(id);
+        model.addAttribute("atividade", atividade);
+        return "editar";
+    }
+
+    @PostMapping("/{id}/editar")
+    public String atualizar(@ModelAttribute AtividadeDTO atividadeDTO, @PathVariable long id) {
+        service.editar(atividadeDTO);
+
+        return "redirect:/atividades/" + id;
     }
 
     @GetMapping("/{id}/movimentar")

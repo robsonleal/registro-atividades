@@ -6,7 +6,6 @@ import br.com.desbugando.registroatividades.model.Estado;
 import br.com.desbugando.registroatividades.repository.AtividadeRepository;
 import br.com.desbugando.registroatividades.repository.CategoriaRepository;
 import br.com.desbugando.registroatividades.repository.TagRepository;
-import br.com.desbugando.registroatividades.service.exception.BusinessException;
 import br.com.desbugando.registroatividades.service.exception.DataBaseException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -38,15 +36,6 @@ public class AtividadeService {
     @Transactional
     public AtividadeDTO insert(AtividadeDTO dto) {
         dto.setEstado(Estado.ATIVO);
-        dto.setTags(dto.getTags().stream().map(String::toLowerCase).collect(Collectors.toSet()));
-        dto.setCategoria(dto.getCategoria().toLowerCase());
-
-        for (String tag : dto.getTags())
-            if (!tagRepository.existsByNome(tag))
-                throw new BusinessException("Tag não cadastrada: " + tag);
-
-        if (!categoriaRepository.existsByNome(dto.getCategoria()))
-            throw new BusinessException("Categoria não cadastrada: " + dto.getCategoria());
 
         Atividade model;
 
@@ -87,5 +76,18 @@ public class AtividadeService {
 
         atividade.setEstado(Estado.ATIVO);
         repository.save(atividade);
+    }
+
+    @Transactional
+    public AtividadeDTO editar(AtividadeDTO atividadeDTO) {
+        Atividade model;
+
+        try {
+            model = repository.save(mapper.map(atividadeDTO, Atividade.class));
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException(e.getMessage());
+        }
+
+        return mapper.map(model, AtividadeDTO.class);
     }
 }

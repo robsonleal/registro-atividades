@@ -60,6 +60,6 @@ public class Atividade {
     @Column(name = "DAT_ATUALIZACAO", nullable = false)
     private Instant atualizadoEm;
 
-    @OneToMany(mappedBy = "atividade", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "atividade", cascade = CascadeType.ALL)
     private Set<Movimento> movimentos;
 }
