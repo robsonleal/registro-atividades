@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" th:href="@{/atividades.css}">
+  <title>Registro Atividades | Home</title>
+  <link th:replace="~{fragments/bootstrap :: bootstrapLink}">
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navBar}"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3" th:each="atividade : ${atividades}">
+      <div class="card my-4">
+        <div class="card-body p-4">
+          <a class="text-body text-decoration-none" th:href="@{/atividades/{id}(id=${atividade.id})}">
+            <h5 class="card-title" th:text="${atividade.titulo}">Título</h5>
+          </a>
+          <p class="card-text text-secondary description" th:text="${atividade.descricao}">Descrição</p>
+          <p class="card-text text-end" th:text="${atividade.categoria}">Categoria</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-secondary text-end fs-sm">
+            Criado em:
+            <span class="text-uppercase" th:text="${#temporals.format(atividade.criadoEm, 'dd-MMM-yyyy HH:mm')}">
+              Data/Hora Criação
+            </span>
+          </li>
+          <li class="list-group-item text-secondary text-end fs-sm">
+            Atualizado em:
+            <span class="text-uppercase" th:text="${#temporals.format(atividade.atualizadoEm, 'dd-MMM-yyyy HH:mm')}">
+              Data/Hora Ultima atualização
+            </span>
+          </li>
+        </ul>
+        <div class="card-body">
+          <a th:href="@{/atividades/{id}/movimentar(id=${atividade.id})}"
+             class="btn btn-primary text-uppercase my-2 w-100">Trabalhar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script th:replace="~{fragments/bootstrap :: bootstrapScript}"></script>
+</body>
+</html>

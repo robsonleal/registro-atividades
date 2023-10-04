@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="navBar">
+  <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/}">Registro de Atividades</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+              aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link text-uppercase"
+               th:classappend="${activePage == 'atividades' ? 'active' : ''}"
+               th:attr="aria-current=${activePage == 'atividades' ? 'page' : null}"
+               th:href="@{/atividades}">
+              Ativas
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-uppercase"
+               th:classappend="${activePage == 'cadastro' ? 'active' : ''}"
+               th:attr="aria-current=${activePage == 'cadastro' ? 'page' : null}"
+               th:href="@{/atividades/criar}">Criar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-uppercase"
+               th:classappend="${activePage == 'historico' ? 'active' : ''}"
+               th:attr="aria-current=${activePage == 'historico' ? 'page' : null}"
+               th:href="@{/atividades/historico}">Histórico</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+</body>
+</html>

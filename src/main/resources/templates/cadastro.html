@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" th:href="@{/cadastro.css}">
+  <title>Registro Atividades | Cadastro</title>
+  <link th:replace="~{fragments/bootstrap :: bootstrapLink}">
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navBar}"></div>
+<div class="content">
+  <div class="container">
+    <h2 class="mb-9 text-center">Nova Atividade</h2>
+    <form th:object="${atividadeDTO}" method="post">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInputTitulo" placeholder="Inserir um título" th:field="*{titulo}">
+            <label for="floatingInputTitulo">Título</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInputDescricao" placeholder="Inserir uma descrição" th:field="*{descricao}">
+            <label for="floatingInputDescricao">Descrição</label>
+          </div>
+          <select class="form-select mb-3" th:field="*{categoria}" aria-label="Select de categorias">
+            <option value="0" selected>Escolha a categoria da atividade</option>
+            <option th:each="categoria : ${categorias}" th:value="${categoria.nome}" th:text="${categoria.nome}"></option>
+          </select>
+          <select class="form-select mb-9" multiple size="5" th:field="*{tags}" aria-label="Select de múltipla escolha para tags">
+            <option value="0" disabled>Escolha uma ou mais tags para a atividade</option>
+            <option th:each="tag : ${tags}" th:value="${tag.nome}" th:text="${tag.nome}"></option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 offset-md-1">
+          <a th:href="@{/}" class="btn btn-danger w-100 text-uppercase">Cancelar</a>
+        </div>
+        <div class="col-md-4 offset-md-2">
+          <button type="submit" class="btn btn-primary w-100 text-uppercase">Criar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script th:replace="~{fragments/bootstrap :: bootstrapScript}"></script>
+</body>
+</html>

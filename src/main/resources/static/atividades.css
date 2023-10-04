@@ -1,0 +1,15 @@
+body {
+  background-color: #F2F2F2 !important;
+}
+
+.fs-sm {
+  font-size: 12px
+}
+
+.card {
+  border-radius: 20px !important;
+}
+
+.description {
+  height: 70px;
+}

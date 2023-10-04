@@ -1,8 +1,11 @@
 package br.com.desbugando.registroatividades.config;
 
 import br.com.desbugando.registroatividades.dto.AtividadeDTO;
+import br.com.desbugando.registroatividades.dto.CategoriaDTO;
 import br.com.desbugando.registroatividades.dto.MovimentoDTO;
+import br.com.desbugando.registroatividades.dto.TagDTO;
 import br.com.desbugando.registroatividades.model.Atividade;
+import br.com.desbugando.registroatividades.model.Categoria;
 import br.com.desbugando.registroatividades.model.Movimento;
 import br.com.desbugando.registroatividades.model.Tag;
 import br.com.desbugando.registroatividades.repository.CategoriaRepository;
@@ -66,6 +69,16 @@ public class MapperConfig {
             modelMapper.createTypeMap(Movimento.class, MovimentoDTO.class);
         TypeMap<MovimentoDTO, Movimento> dTOToMovimentoTypeMap =
             modelMapper.createTypeMap(MovimentoDTO.class, Movimento.class);
+
+        TypeMap<Tag, TagDTO> tagToDTOTypeMap =
+            modelMapper.createTypeMap(Tag.class, TagDTO.class);
+        TypeMap<TagDTO, Tag> dTOToTagTypeMap =
+            modelMapper.createTypeMap(TagDTO.class, Tag.class);
+
+        TypeMap<Categoria, CategoriaDTO> categoriaToDTOTypeMap =
+            modelMapper.createTypeMap(Categoria.class, CategoriaDTO.class);
+        TypeMap<CategoriaDTO, Categoria> dTOToCategoriaTypeMap =
+            modelMapper.createTypeMap(CategoriaDTO.class, Categoria.class);
 
         return modelMapper;
     }

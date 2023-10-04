@@ -12,7 +12,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -61,7 +60,6 @@ public class Atividade {
     @Column(name = "DAT_ATUALIZACAO", nullable = false)
     private Instant atualizadoEm;
 
-    @OneToMany
-    @JoinColumn(name = "OID_ATIVIDADE")
+    @OneToMany(mappedBy = "atividade", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Movimento> movimentos;
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" th:href="@{/cadastro.css}">
+  <title>Registro Atividades | Cadastro</title>
+  <link th:replace="~{fragments/bootstrap :: bootstrapLink}">
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navBar}"></div>
+<div class="content">
+  <div class="container">
+    <h2 class="mb-9 text-center">Trabalhando na atividade: <span th:text="${atividade.titulo}"></span></h2>
+    <form th:object="${movimento}" th:action="@{/movimentos/{atividadeId}(atividadeId=${atividade.id})}" method="post">
+      <input type="hidden" th:value="${movimento.registroInicio}" th:field="*{registroInicio}">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="form-floating mb-3">
+            <textarea rows="5" class="form-control mb-5" id="floatingInputDescricao" placeholder="Inserir uma descrição" th:field="*{descricao}"></textarea>
+            <label for="floatingInputDescricao">Descrever brevemente o que foi feito ...</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 offset-md-1">
+          <a th:href="@{/}" class="btn btn-danger w-100 text-uppercase">Cancelar</a>
+        </div>
+        <div class="col-md-4 offset-md-2">
+          <button type="submit" class="btn btn-primary w-100 text-uppercase">Registrar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script th:replace="~{fragments/bootstrap :: bootstrapScript}"></script>
+</body>
+</html>

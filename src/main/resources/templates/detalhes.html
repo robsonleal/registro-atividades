@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" th:href="@{/detalhes.css}">
+  <title>Registro Atividades | Cadastro</title>
+  <link th:replace="~{fragments/bootstrap :: bootstrapLink}">
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navBar}"></div>
+<div class="content">
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-start">
+        <h2 class="d-inline" th:text="${atividade.titulo}">Titulo</h2>
+        <p class="badge bg-primary mx-5" th:text="${atividade.categoria}">Categoria</p>
+        <p class="badge bg-secondary mx-2" th:each="tag : ${atividade.tags}" th:text="${tag}">Badges</p>
+      </div>
+      <div class="d-flex align-items-start gap-2">
+        <form th:if="${atividade.estado.name()} == 'ATIVO'" th:action="@{/atividades/{id}/concluir(id=${atividade.id})}" method="post">
+          <button type="submit" class="btn btn-outline-primary text-uppercase">Concluir</button>
+        </form>
+        <form th:if="${atividade.estado.name()} == 'CONCLUIDO'" th:action="@{/atividades/{id}/ativar(id=${atividade.id})}" method="post">
+          <button type="submit" class="btn btn-primary text-uppercase">Ativar</button>
+        </form>
+        <a th:if="${atividade.estado.name()} == 'ATIVO'" th:href="@{/atividades/{id}/movimentar(id=${atividade.id})}"
+           class="btn btn-primary text-uppercase">Trabalhar</a>
+      </div>
+    </div>
+    <h5 class="text-secondary mb-5" th:text="${atividade.descricao}"></h5>
+    <div th:class="${#lists.size(atividade.movimentos) > 15} ? 'table-scrollable' : ''">
+      <table class="table table-light caption-top">
+        <caption>Histórico de movimentações</caption>
+        <thead>
+        <tr>
+          <th class="w-col-num">Nº</th>
+          <th class="w-col-desc">Descrição</th>
+          <th class="w-col-data-inicio">Data/Hora Início</th>
+          <th class="w-col-data-fim">Data/Hora Fim</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="movimento, iterStat : ${atividade.movimentos}">
+          <td th:text="${iterStat.count}">Contador</td>
+          <td th:text="${movimento.descricao}">Descricaos</td>
+          <td th:text="${#temporals.format(movimento.registroInicio, 'dd-MM-yyyy HH:mm')}">Data/Hora Inicio</td>
+          <td th:text="${#temporals.format(movimento.registroFim, 'dd-MM-yyyy HH:mm')}">Data/Hora Fim</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script th:replace="~{fragments/bootstrap :: bootstrapScript}"></script>
+</body>
+</html>
