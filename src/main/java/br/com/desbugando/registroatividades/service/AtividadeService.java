@@ -90,4 +90,10 @@ public class AtividadeService {
 
         return mapper.map(model, AtividadeDTO.class);
     }
+
+    public List<AtividadeDTO> getPorIdCategoria(Long id) {
+        List<Atividade> atividades = repository.findByCategoria_Id(id);
+
+        return atividades.stream().map(atividade -> mapper.map(atividade, AtividadeDTO.class)).toList();
+    }
 }

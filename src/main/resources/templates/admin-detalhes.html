@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" th:href="@{/admin.css}">
+  <title>Registro Atividades | Admin</title>
+  <link th:replace="~{fragments/bootstrap :: bootstrapLink}">
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navBar}"></div>
+<div class="content">
+  <div class="container">
+    <h2 class="mb-4" th:text="${item.nome}">Item nome</h2>
+    <div th:class="${#lists.size(vinculados) > 15} ? 'table-scrollable' : ''">
+      <div>
+        <table class="table table-light caption-top">
+          <caption>Lista de atividades vinculadas a <span th:text="${item.nome}">Item nome</span></caption>
+          <thead>
+          <tr>
+            <th class="w-col-num">Nº</th>
+            <th class="w-col-desc">Atividades</th>
+            <th class="w-col-acoes">Ações</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="vinculo, iterStat : ${vinculados}" th:data-id="${vinculo.id}">
+            <td th:text="${iterStat.count}">Contador</td>
+            <td th:text="${vinculo.titulo}">Descricaos</td>
+            <td>
+              <div class="d-flex gap-3">
+                <a th:href="@{/atividades/{id}(id=${vinculo.id})}" aria-label="Detalhar">
+                  <img th:src="@{/img/detalhes.png}" alt="Ícone de uma lupa">
+                </a>
+                <a th:href="@{/atividades/{id}/editar(id=${vinculo.id})}" aria-label="Editar">
+                  <img th:src="@{/img/editar.png}" alt="Ícone de um lápis em um quadro">
+                </a>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script th:replace="~{fragments/bootstrap :: bootstrapScript}"></script>
+</body>
+</html>

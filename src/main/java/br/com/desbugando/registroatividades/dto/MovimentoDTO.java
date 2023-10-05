@@ -14,4 +14,5 @@ public class MovimentoDTO {
     private String descricao;
     private Instant registroInicio;
     private Instant registroFim;
+    private Long atividadeId;
 }

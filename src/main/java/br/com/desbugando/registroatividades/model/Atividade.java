@@ -20,6 +20,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -61,5 +62,5 @@ public class Atividade {
     private Instant atualizadoEm;
 
     @OneToMany(mappedBy = "atividade", cascade = CascadeType.ALL)
-    private Set<Movimento> movimentos;
+    private List<Movimento> movimentos;
 }

@@ -9,6 +9,7 @@
 </head>
 <body>
 <div th:insert="~{fragments/navbar :: navBar}"></div>
+<div id="activePage" th:data-page="${activePage}"></div>
 <div class="content">
   <div class="container">
     <div class="d-flex justify-content-between">
@@ -30,7 +31,7 @@
       </div>
     </div>
     <h5 class="text-secondary mb-5" th:text="${atividade.descricao}"></h5>
-    <div th:class="${#lists.size(atividade.movimentos) > 15} ? 'table-scrollable' : ''">
+    <div th:class="${#lists.size(atividade.movimentos) > 10} ? 'table-scrollable' : ''">
       <table class="table table-light caption-top">
         <caption>Histórico de movimentações</caption>
         <thead>
@@ -42,9 +43,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="movimento, iterStat : ${atividade.movimentos}">
+        <tr th:each="movimento, iterStat : ${atividade.movimentos}" th:data-id="${movimento.id}">
           <td th:text="${iterStat.count}">Contador</td>
-          <td th:text="${movimento.descricao}">Descricaos</td>
+          <td class="coluna-editavel" th:text="${movimento.descricao}">Descricaos</td>
           <td th:text="${#temporals.format(movimento.registroInicio, 'dd-MM-yyyy HH:mm')}">Data/Hora Inicio</td>
           <td th:text="${#temporals.format(movimento.registroFim, 'dd-MM-yyyy HH:mm')}">Data/Hora Fim</td>
         </tr>
@@ -54,5 +55,6 @@
   </div>
 </div>
 <script th:replace="~{fragments/bootstrap :: bootstrapScript}"></script>
+<script th:src="@{/js/tabela-editavel.js}"></script>
 </body>
 </html>

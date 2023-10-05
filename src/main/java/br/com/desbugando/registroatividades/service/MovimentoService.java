@@ -1,6 +1,7 @@
 package br.com.desbugando.registroatividades.service;
 
 import br.com.desbugando.registroatividades.dto.MovimentoDTO;
+import br.com.desbugando.registroatividades.dto.MovimentoPatchDTO;
 import br.com.desbugando.registroatividades.model.Atividade;
 import br.com.desbugando.registroatividades.model.Movimento;
 import br.com.desbugando.registroatividades.repository.AtividadeRepository;
@@ -28,5 +29,15 @@ public class MovimentoService {
         movimento = movimentoRepository.save(movimento);
 
         return mapper.map(movimento, MovimentoDTO.class);
+    }
+
+    public MovimentoDTO patchDescricao(MovimentoPatchDTO movimentoPatchDTO, long id) {
+        Movimento movimento = movimentoRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Movimento não encontrado!"));
+
+        if (movimento.getDescricao() != null)
+            movimento.setDescricao(movimentoPatchDTO.getDescricao());
+
+        return mapper.map(movimentoRepository.save(movimento), MovimentoDTO.class);
     }
 }

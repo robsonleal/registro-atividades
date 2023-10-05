@@ -2,10 +2,6 @@ body {
   background-color: #F2F2F2 !important;
 }
 
-.fs-sm {
-  font-size: 16px
-}
-
 .content {
   padding: 50px;
   background-color: #FFF;
@@ -26,9 +22,9 @@ body {
 }
 
 .w-col-desc {
-  width: 800px;
+  width: 900px;
 }
 
-.w-col-data-inicio, w-col-data-fim {
-  width: 200px;
+.w-col-acoes {
+  width: 100px;
 }

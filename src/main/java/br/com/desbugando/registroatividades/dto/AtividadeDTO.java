@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -20,5 +21,5 @@ public class AtividadeDTO {
     private Estado estado;
     private Instant criadoEm;
     private Instant atualizadoEm;
-    private Set<MovimentoDTO> movimentos;
+    private List<MovimentoDTO> movimentos;
 }

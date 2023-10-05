@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" th:href="@{/admin.css}">
+  <title>Registro Atividades | Admin</title>
+  <link th:replace="~{fragments/bootstrap :: bootstrapLink}">
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navBar}"></div>
+<div id="activePage" th:data-page="${activePage}"></div>
+<div class="content">
+  <div class="container">
+    <h2 class="mb-4">Administrando <span th:text="${#strings.capitalize(activePage)}"></span></h2>
+    <div th:class="${#lists.size(itens) > 15} ? 'table-scrollable' : ''">
+      <div>
+        <table class="table table-light">
+          <thead>
+          <tr>
+            <th class="w-col-num">Nº</th>
+            <th class="w-col-desc">Descrição</th>
+            <th class="w-col-acoes">Ações</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="item, iterStat : ${itens}" th:data-id="${item.id}">
+            <td th:text="${iterStat.count}">Contador</td>
+            <td class="coluna-editavel" th:text="${item.nome}">Descricaos</td>
+            <td>
+              <div class="d-flex gap-3">
+                <a th:href="@{/categorias/{id}(id=${item.id})}" aria-label="Detalhar">
+                  <img th:src="@{/img/detalhes.png}" alt="Ícone de uma lupa">
+                </a>
+                <a href="#" aria-label="Deletar">
+                  <img th:src="@{/img/deletar.png}" alt="Ícone de uma lata de lixo">
+                </a>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script th:replace="~{fragments/bootstrap :: bootstrapScript}"></script>
+<script th:src="@{/js/tabela-editavel.js}"></script>
+</body>
+</html>

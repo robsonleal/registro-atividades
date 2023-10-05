@@ -81,6 +81,7 @@ public class AtividadeController {
     public String detalhar(@PathVariable Long id, Model model) {
         AtividadeDTO atividade = service.findById(id);
         model.addAttribute("atividade", atividade);
+        model.addAttribute("activePage", "detalhesAtividades");
 
         return "detalhes";
     }

@@ -12,4 +12,5 @@ import java.util.List;
 public interface AtividadeRepository extends JpaRepository<Atividade, Long> {
     List<Atividade> findByEstadoNot(Estado estado);
     List<Atividade> findByEstadoAndAtualizadoEmBetween(Estado estado, Instant dataInicial, Instant dataFinal);
+    List<Atividade> findByCategoria_Id(Long id);
 }
