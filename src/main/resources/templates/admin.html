@@ -12,7 +12,22 @@
 <div id="activePage" th:data-page="${activePage}"></div>
 <div class="content">
   <div class="container">
-    <h2 class="mb-4">Administrando <span th:text="${#strings.capitalize(activePage)}"></span></h2>
+    <div th:if="${mensagemSucesso}" class="alert alert-success fade show my-3" role="alert">
+      <span th:text="${mensagemSucesso}"></span>
+      <button type="button" class="btn-close" hidden data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${mensagemErro}" class="alert alert-danger fade show my-3" role="alert">
+      <span th:text="${mensagemErro}"></span>
+      <button type="button" class="btn-close" hidden data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-start">
+      <h2 class="mb-4">Administrando <span th:text="${#strings.capitalize(activePage)}"></span></h2>
+      <button type="button" class="btn btn-primary text-uppercase" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">
+        Nova
+      </button>
+    </div>
     <div th:class="${#lists.size(itens) > 15} ? 'table-scrollable' : ''">
       <div>
         <table class="table table-light">
@@ -44,7 +59,40 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form th:object="${item}" method="POST">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5"
+              id="exampleModalLabel">
+            Cadastro de <span th:text="${#strings.capitalize(activePage)}"></span>
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-floating my-3">
+            <input type="text"
+                   class="form-control"
+                   id="floatingInputTitulo"
+                   placeholder="Digite um nome"
+                   th:field="*{nome}"
+                   required>
+            <label for="floatingInputTitulo">
+              Digite um nome
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Criar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 <script th:replace="~{fragments/bootstrap :: bootstrapScript}"></script>
 <script th:src="@{/js/tabela-editavel.js}"></script>
+<script th:src="@{/js/fade-alert.js}"></script>
 </body>
 </html>

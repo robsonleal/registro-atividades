@@ -4,9 +4,11 @@ import br.com.desbugando.registroatividades.dto.TagDTO;
 import br.com.desbugando.registroatividades.dto.TagPatchDTO;
 import br.com.desbugando.registroatividades.model.Tag;
 import br.com.desbugando.registroatividades.repository.TagRepository;
+import br.com.desbugando.registroatividades.service.exception.DataBaseException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,5 +36,18 @@ public class TagService {
         }
 
         repository.save(tag);
+    }
+
+    public String[] inserir(TagDTO tagDTO) {
+        String[] alertaResultado;
+
+        try {
+            repository.save(mapper.map(tagDTO, Tag.class));
+            alertaResultado = new String[] {"mensagemSucesso", "Tag cadastrada com sucesso!"};
+        } catch (DataIntegrityViolationException e) {
+            throw new DataBaseException(e.getLocalizedMessage());
+        }
+
+        return alertaResultado;
     }
 }

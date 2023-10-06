@@ -10,10 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -30,9 +33,21 @@ public class TagController {
         List<TagDTO> tags = tagService.buscarTodas();
 
         model.addAttribute("activePage", "tags");
+        model.addAttribute("item", new TagDTO());
         model.addAttribute("itens", tags);
 
         return "admin";
+    }
+
+
+    @PostMapping
+    public String inserir(@ModelAttribute TagDTO tagDTO,
+        RedirectAttributes redirectAttributes) {
+
+        String[] alertaResultado = tagService.inserir(tagDTO);
+        redirectAttributes.addFlashAttribute(alertaResultado[0], alertaResultado[1]);
+
+        return "redirect:/tags";
     }
 
     @GetMapping("/{id}")
