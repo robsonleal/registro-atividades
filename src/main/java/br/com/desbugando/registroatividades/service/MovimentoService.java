@@ -20,15 +20,15 @@ public class MovimentoService {
     private AtividadeRepository atividadeRepository;
     private ModelMapper mapper;
 
-    public MovimentoDTO criar(long id, MovimentoDTO movimentoDTO) {
+    public String[] criar(long id, MovimentoDTO movimentoDTO) {
         Atividade atividade = atividadeRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Atividade não encontrada!"));
         movimentoDTO.setRegistroFim(Instant.now());
         Movimento movimento = mapper.map(movimentoDTO, Movimento.class);
         movimento.setAtividade(atividade);
-        movimento = movimentoRepository.save(movimento);
+        movimentoRepository.save(movimento);
 
-        return mapper.map(movimento, MovimentoDTO.class);
+        return new String[] {"mensagemSucesso", "Movimento criado com sucesso!"};
     }
 
     public MovimentoDTO patchDescricao(MovimentoPatchDTO movimentoPatchDTO, long id) {

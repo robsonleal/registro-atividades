@@ -10,6 +10,17 @@
 <body>
 <div th:insert="~{fragments/navbar :: navBar}"></div>
 <div class="container">
+  <h1 th:if="${atividades.size() == 0}" class="my-4">Nenhuma atividade ativa no momento</h1>
+
+  <div th:if="${mensagemSucesso}" class="alert alert-success fade show my-3" role="alert">
+    <span th:text="${mensagemSucesso}"></span>
+    <button type="button" class="btn-close" hidden data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <div th:if="${mensagemErro}" class="alert alert-danger fade show my-3" role="alert">
+    <span th:text="${mensagemErro}"></span>
+    <button type="button" class="btn-close" hidden data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
   <div class="row">
     <div class="col-md-3" th:each="atividade : ${atividades}">
       <div class="card my-4">
@@ -43,5 +54,6 @@
   </div>
 </div>
 <script th:replace="~{fragments/bootstrap :: bootstrapScript}"></script>
+<script th:src="@{/js/fade-alert.js}"></script>
 </body>
 </html>

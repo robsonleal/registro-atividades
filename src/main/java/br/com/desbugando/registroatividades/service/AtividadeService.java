@@ -34,18 +34,19 @@ public class AtividadeService {
     }
 
     @Transactional
-    public AtividadeDTO insert(AtividadeDTO dto) {
+    public String[] insert(AtividadeDTO dto) {
         dto.setEstado(Estado.ATIVO);
 
-        Atividade model;
+        String[] alertaResultado;
 
         try {
-            model = repository.save(mapper.map(dto, Atividade.class));
+            repository.save(mapper.map(dto, Atividade.class));
+            alertaResultado = new String[] {"mensagemSucesso", "Atividade cadastrada com sucesso!"};
         } catch (DataIntegrityViolationException e) {
-            throw new DataBaseException(e.getMessage());
+            throw new DataBaseException(e.getLocalizedMessage());
         }
 
-        return mapper.map(model, AtividadeDTO.class);
+        return alertaResultado;
     }
 
     public List<AtividadeDTO> getConcluidasNoPeriodo(Instant dataInicial, Instant dataFinal) {
@@ -94,12 +95,14 @@ public class AtividadeService {
     public List<AtividadeDTO> getPorCategoriaId(Long id) {
         List<Atividade> atividades = repository.findByCategoria_Id(id);
 
-        return atividades.stream().map(atividade -> mapper.map(atividade, AtividadeDTO.class)).toList();
+        return atividades.stream().map(atividade -> mapper.map(atividade, AtividadeDTO.class))
+            .toList();
     }
 
     public List<AtividadeDTO> getPorTagId(Long id) {
         List<Atividade> atividades = repository.findByTagsId(id);
 
-        return  atividades.stream().map(atividade -> mapper.map(atividade, AtividadeDTO.class)).toList();
+        return atividades.stream().map(atividade -> mapper.map(atividade, AtividadeDTO.class))
+            .toList();
     }
 }

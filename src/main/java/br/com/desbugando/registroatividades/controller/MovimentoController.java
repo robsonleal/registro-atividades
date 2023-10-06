@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
@@ -22,8 +23,11 @@ public class MovimentoController {
     private MovimentoService movimentoService;
 
     @PostMapping("/{atividadeId}")
-    public String criar(@ModelAttribute MovimentoDTO movimentoDTO, @PathVariable Long atividadeId) {
-        movimentoService.criar(atividadeId, movimentoDTO);
+    public String criar(@ModelAttribute MovimentoDTO movimentoDTO, @PathVariable Long atividadeId,
+        RedirectAttributes redirectAttributes) {
+
+        String[] alertaResultado = movimentoService.criar(atividadeId, movimentoDTO);
+        redirectAttributes.addFlashAttribute(alertaResultado[0], alertaResultado[1]);
 
         return "redirect:/atividades/" + atividadeId;
     }
@@ -33,6 +37,7 @@ public class MovimentoController {
         @RequestBody MovimentoPatchDTO movimentoPatchDTO, @PathVariable long id) {
         MovimentoDTO movimentoDTO = movimentoService.patchDescricao(movimentoPatchDTO, id);
 
-        return ResponseEntity.ok(Map.of("redirectUrl", "/atividades/" + movimentoDTO.getAtividadeId()));
+        return ResponseEntity.ok(
+            Map.of("redirectUrl", "/atividades/" + movimentoDTO.getAtividadeId()));
     }
 }

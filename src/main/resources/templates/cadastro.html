@@ -11,24 +11,33 @@
 <div th:insert="~{fragments/navbar :: navBar}"></div>
 <div class="content">
   <div class="container">
+    <div th:if="${mensagemSucesso}" class="alert alert-success fade show my-3" role="alert">
+      <span th:text="${mensagemSucesso}"></span>
+      <button type="button" class="btn-close" hidden data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${mensagemErro}" class="alert alert-danger fade show my-3" role="alert">
+      <span th:text="${mensagemErro}"></span>
+      <button type="button" class="btn-close" hidden data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <h2 class="mb-9 text-center">Nova Atividade</h2>
     <form th:object="${atividadeDTO}" method="post">
       <div class="row">
         <div class="col-md-8 mx-auto">
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInputTitulo" placeholder="Inserir um título" th:field="*{titulo}">
+            <input type="text" class="form-control" id="floatingInputTitulo" placeholder="Inserir um título" th:field="*{titulo}" required>
             <label for="floatingInputTitulo">Título</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInputDescricao" placeholder="Inserir uma descrição" th:field="*{descricao}">
+            <input type="text" class="form-control" id="floatingInputDescricao" placeholder="Inserir uma descrição" th:field="*{descricao}" required>
             <label for="floatingInputDescricao">Descrição</label>
           </div>
-          <select class="form-select mb-3" th:field="*{categoria}" aria-label="Select de categorias">
-            <option value="0" selected>Escolha a categoria da atividade</option>
+          <select class="form-select mb-3" th:field="*{categoria}" aria-label="Select de categorias" required>
+            <option value="" selected>Escolha a categoria da atividade</option>
             <option th:each="categoria : ${categorias}" th:value="${categoria.nome}" th:text="${categoria.nome}"></option>
           </select>
-          <select class="form-select mb-9" multiple size="5" th:field="*{tags}" aria-label="Select de múltipla escolha para tags">
-            <option value="0" disabled>Escolha uma ou mais tags para a atividade</option>
+          <select class="form-select mb-9" multiple size="5" th:field="*{tags}" aria-label="Select de múltipla escolha para tags" required>
+            <option value="" disabled>Escolha uma ou mais tags para a atividade</option>
             <option th:each="tag : ${tags}" th:value="${tag.nome}" th:text="${tag.nome}"></option>
           </select>
         </div>
@@ -45,5 +54,6 @@
   </div>
 </div>
 <script th:replace="~{fragments/bootstrap :: bootstrapScript}"></script>
+<script th:src="@{/js/fade-alert.js}"></script>
 </body>
 </html>

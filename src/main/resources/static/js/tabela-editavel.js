@@ -36,6 +36,7 @@ function saveChanges(cell) {
     .then((data) => {
       if (data.redirectUrl) {
         window.location.href = data.redirectUrl;
+        alert("Movimento alterado com sucesso!");
       }
     })
     .catch((error) => {
