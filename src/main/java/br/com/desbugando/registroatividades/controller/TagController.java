@@ -1,10 +1,10 @@
 package br.com.desbugando.registroatividades.controller;
 
 import br.com.desbugando.registroatividades.dto.AtividadeDTO;
-import br.com.desbugando.registroatividades.dto.CategoriaDTO;
-import br.com.desbugando.registroatividades.dto.CategoriaPatchDTO;
+import br.com.desbugando.registroatividades.dto.TagDTO;
+import br.com.desbugando.registroatividades.dto.TagPatchDTO;
 import br.com.desbugando.registroatividades.service.AtividadeService;
-import br.com.desbugando.registroatividades.service.CategoriaService;
+import br.com.desbugando.registroatividades.service.TagService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,28 +19,28 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/categorias")
+@RequestMapping("/tags")
 @AllArgsConstructor
-public class CategoriaController {
-    private CategoriaService categoriaService;
+public class TagController {
+    private TagService tagService;
     private AtividadeService atividadeService;
 
     @GetMapping
     public String buscarTodas(Model model) {
-        List<CategoriaDTO> categorias = categoriaService.buscarTodas();
+        List<TagDTO> tags = tagService.buscarTodas();
 
-        model.addAttribute("activePage", "categorias");
-        model.addAttribute("itens", categorias);
+        model.addAttribute("activePage", "tags");
+        model.addAttribute("itens", tags);
 
         return "admin";
     }
 
     @GetMapping("/{id}")
     public String detalhar(@PathVariable Long id, Model model) {
-        CategoriaDTO categoria = categoriaService.buscarPorId(id);
-        model.addAttribute("item", categoria);
+        TagDTO tag = tagService.buscarPorId(id);
+        model.addAttribute("item", tag);
 
-        List<AtividadeDTO> atividades = atividadeService.getPorCategoriaId(id);
+        List<AtividadeDTO> atividades = atividadeService.getPorTagId(id);
         model.addAttribute("vinculados", atividades);
 
         return "admin-detalhes";
@@ -48,9 +48,9 @@ public class CategoriaController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Map<String, String>> editar(
-        @RequestBody CategoriaPatchDTO categoriaPatchDTO, @PathVariable long id) {
-        categoriaService.patchNome(categoriaPatchDTO, id);
+        @RequestBody TagPatchDTO tagPatchDTO, @PathVariable long id) {
+        tagService.patchNome(tagPatchDTO, id);
 
-        return ResponseEntity.ok(Map.of("redirectUrl", "/categorias"));
+        return ResponseEntity.ok(Map.of("redirectUrl", "/tags"));
     }
 }
