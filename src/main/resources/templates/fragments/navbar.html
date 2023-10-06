@@ -31,6 +31,27 @@
                th:attr="aria-current=${activePage == 'historico' ? 'page' : null}"
                th:href="@{/atividades/historico}">Histórico</a>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-uppercase"
+               href="#"
+               role="button"
+               th:classappend="${activePage == 'tags' ||  activePage == 'categorias' ? 'active' : ''}"
+               th:attr="aria-current=${activePage == 'tags' || activePage == 'categorias' ? 'page' : null}"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+              Admin
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item text-uppercase"
+                   th:href="@{/tags}">Tags</a>
+              </li>
+              <li>
+                <a class="dropdown-item text-uppercase"
+                   th:href="@{/categorias}">Categorias</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>
