@@ -9,6 +9,11 @@ import br.com.desbugando.registroatividades.service.CategoriaService;
 import br.com.desbugando.registroatividades.service.TagService;
 import br.com.desbugando.registroatividades.service.exception.BusinessException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -130,5 +135,17 @@ public class AtividadeController {
         service.ativar(id);
 
         return "redirect:/atividades";
+    }
+
+    @GetMapping("/relatorio")
+    public ResponseEntity<byte[]> getReport() {
+        byte[] pdfReport = service.gerarRelatorioAtividadesDeXDias(7);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(
+            ContentDisposition.builder("attachment").filename("report.pdf").build());
+
+        return new ResponseEntity<>(pdfReport, headers, HttpStatus.OK);
     }
 }

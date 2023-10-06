@@ -14,4 +14,5 @@ public interface AtividadeRepository extends JpaRepository<Atividade, Long> {
     List<Atividade> findByEstadoAndAtualizadoEmBetween(Estado estado, Instant dataInicial, Instant dataFinal);
     List<Atividade> findByCategoria_Id(Long id);
     List<Atividade> findByTagsId(Long id);
+    List<Atividade> findByCriadoEmAfterAndEstadoNot(Instant date, Estado estado);
 }

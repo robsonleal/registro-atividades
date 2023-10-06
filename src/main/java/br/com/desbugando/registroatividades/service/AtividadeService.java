@@ -4,8 +4,6 @@ import br.com.desbugando.registroatividades.dto.AtividadeDTO;
 import br.com.desbugando.registroatividades.model.Atividade;
 import br.com.desbugando.registroatividades.model.Estado;
 import br.com.desbugando.registroatividades.repository.AtividadeRepository;
-import br.com.desbugando.registroatividades.repository.CategoriaRepository;
-import br.com.desbugando.registroatividades.repository.TagRepository;
 import br.com.desbugando.registroatividades.service.exception.DataBaseException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -15,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -22,9 +21,8 @@ import java.util.List;
 public class AtividadeService {
 
     private final AtividadeRepository repository;
-    private final CategoriaRepository categoriaRepository;
-    private final TagRepository tagRepository;
     private final ModelMapper mapper;
+    private PDFReportGenerator pdfReportGenerator;
 
     public List<AtividadeDTO> getNaoConcluidas() {
         List<Atividade> atividades = repository.findByEstadoNot(Estado.CONCLUIDO);
@@ -104,5 +102,15 @@ public class AtividadeService {
 
         return atividades.stream().map(atividade -> mapper.map(atividade, AtividadeDTO.class))
             .toList();
+    }
+
+    public byte[] gerarRelatorioAtividadesDeXDias(int peridoEmDias) {
+        Instant periodo = Instant.now().minus(peridoEmDias, ChronoUnit.DAYS);
+
+        List<AtividadeDTO> atividades = repository.findByCriadoEmAfterAndEstadoNot(periodo, Estado.ATIVO)
+            .stream().map(atividade -> mapper.map(atividade, AtividadeDTO.class)).toList();
+
+        return pdfReportGenerator.generateAtividadesReport(atividades,
+            String.format("Últimos %d dias", peridoEmDias));
     }
 }
